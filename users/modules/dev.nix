@@ -7,6 +7,9 @@ home.packages = with pkgs; [
 
     gdb
     valgrind
+    lazygit
+
+    mysql-workbench
 
     # C
     cmake
@@ -18,6 +21,9 @@ home.packages = with pkgs; [
       python-pkgs.pip
       python-pkgs.setuptools
       python-pkgs.srt
+      python-pkgs.pandas
+      python-pkgs.numpy
+      python-pkgs.matplotlib
       # TODO: Package https://github.com/alphacep/vosk-api/tree/master/python so we can have kdenlive tts
     ]))
 

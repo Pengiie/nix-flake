@@ -6,7 +6,7 @@
   nixpkgs.overlays = [
     (final: prev: {
       renderdoc = prev.renderdoc.override {
-        waylandSupport = true;
+        waylandSupport = false;
       };
     })
   ];

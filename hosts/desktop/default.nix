@@ -39,8 +39,27 @@
   programs.noisetorch.enable = true;
 
   networking.firewall.checkReversePath = "loose";
-  networking.nameservers = lib.mkForce [ "10.2.0.1" ];
+  # networking.nameservers = lib.mkForce [ "10.2.0.1" ];
 
   # MTP support
   services.gvfs.enable = true;
+
+  # w drags
+  environment.etc."libinput/local-overrides.quirks".text = ''
+    [Never Debounce]
+    MatchUdevType=mouse
+    ModelBouncingKeys=1
+  '';
+
+  # Local LLMs
+  # services.ollama = {
+  #   enable = true;
+  #   acceleration = "cuda";
+  # };
+
+  # Openvpn
+  # services.openvpn.servers = {
+  #   capstoneVPN = { config = '' config /root/nixos/openvpn/capstoneVPN.conf ''; };
+  # };
+
 }

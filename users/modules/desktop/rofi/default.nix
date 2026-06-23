@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
     theme = ./themes/catppuccin-mocha.rasi;
 
     extraConfig = {

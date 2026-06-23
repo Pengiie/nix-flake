@@ -20,7 +20,7 @@
         resolution = "${toString monitor.resolution.width}x${toString monitor.resolution.height}@${toString monitor.refreshRate}";
         position = "${toString monitor.position.x}x${toString monitor.position.y}";
       in "${monitor.name}, ${resolution}, ${position}, ${toString monitor.scale}"
-      ) config.host.monitors ++ ["Unknown-1,disable"];
+      ) config.host.monitors;
 
       input = {
         touchpad = {
@@ -30,10 +30,9 @@
         accel_profile = "flat";
       };
 
-      gestures = {
-        workspace_swipe = true;
-        workspace_swipe_fingers = 3;
-      };
+      # This shouldn't be opt-out.
+      ecosystem.no_update_news = true;
+      ecosystem.no_donation_nag = true;
 
       general = {
         "col.inactive_border" = "rgba(00000000)";
@@ -59,6 +58,10 @@
       misc = {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
+      };
+
+      debug = {
+        damage_tracking = 0;
       };
 
       # render.explicit_sync = 1;
@@ -93,7 +96,7 @@
         "SUPER, R, exec, hyprctl reload" # reload hyprland
         "SUPER, Q, killactive" # kill active window
         "ALT, F5, killactive"
-        "SUPER, Escape, exit" # exit hyprland
+        "SUPER_SHIFT_ALT, Escape, exit" # exit hyprland
 
         ## Window Management
         "SUPER, H, movefocus, l"
@@ -169,6 +172,9 @@
 
         "float,class:^(org\.pulseaudio\.pavucontrol)$"
         "float,class:^(blueberry\.py)$"
+
+        "float,class:^(ninjabrainbot-Main)$"
+        "opacity 0.5,class:^(ninjabrainbot-Main)$"
       ];
 
       layerrule = [ 

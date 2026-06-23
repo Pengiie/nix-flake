@@ -9,17 +9,19 @@
       version = "2104";
 
       src = pkgs.fetchFromGitHub {
-        owner = "PabloMK7";
-        repo = "citra";
-        rev = "cdce02607abf1b43cdf93c6f367825158f23a467";
-        sha256 = "sha256-3h/A4Nne5KHhdY20V9Ue9pAvGVCc5Um0ZsMIgPzAflc=";
+        owner = "azahar-emu";
+        repo = "azahar";
+        rev = "e524542a400c8d1daec013f5ff124fbe8305b148";
+        sha256 = "sha256-kkpnqVAb7g5bhIApAR+nDtfbGrpImpgMvHRzs9KkA7s=";
         fetchSubmodules = true;
       };
+      strictDeps = true;
       nativeBuildInputs = with pkgs; [
         cmake
         pkg-config
         ffmpeg
         glslang
+        python3
         qt6.wrapQtAppsHook
       ];
 
@@ -53,6 +55,8 @@
 
       cmakeFlags = [
         "-DUSE_SYSTEM_LIBS=ON"
+        "-DUSE_SYSTEM_CRYPTOPP=ON"
+        "-DCMAKE_PREFIX_PATH=${pkgs.cryptopp}"
 
         "-DDISABLE_SYSTEM_DYNARMIC=ON"
         "-DDISABLE_SYSTEM_GLSLANG=ON" # The following imported targets are referenced, but are missing: SPIRV-Tools-opt
@@ -82,7 +86,7 @@
           --replace "check_submodules_present()" ""
 
         # Add versions
-        echo 'set(BUILD_FULLNAME "citra")' >> CMakeModules/GenerateBuildInfo.cmake
+        echo 'set(BUILD_FULLNAME "azahar")' >> CMakeModules/GenerateBuildInfo.cmake
 
         # Add gamemode
         substituteInPlace externals/gamemode/include/gamemode_client.h --replace "libgamemode.so.0" "${lib.getLib pkgs.gamemode}/lib/libgamemode.so.0"
@@ -100,6 +104,6 @@
     };
 in {
   home.packages = [
-    # citra
+     citra
   ];
 }

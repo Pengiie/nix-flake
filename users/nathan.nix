@@ -20,7 +20,7 @@ in {
   ./modules/virt.nix
 
   ./modules/nvim
-  ./modules/citra
+  # ./modules/citra
 
   # Encapsulates the entire DE
   ./modules/desktop.nix
@@ -59,6 +59,7 @@ in {
     inputs.nixpkgs-unstable.legacyPackages.${system}.jetbrains.rust-rover
     inputs.nixpkgs-unstable.legacyPackages.${system}.jetbrains.clion
     vscode
+    vscode-extensions.vadimcn.vscode-lldb
     osu-lazer-bin
 
     gh-markdown-preview
@@ -72,20 +73,38 @@ in {
     prismlauncher
     lumafly
     clonehero
+    # todo: when school ends delete
+    (zoom-us.override {
+      hyprlandXdgDesktopPortalSupport = true;
+    })
 
     image-roll
     wineWowPackages.waylandFull
     winetricks
     opentabletdriver
+    openvpn
 
     kicad-fixed
     kicad
     librecad
     freecad
+    easyeffects
+
+    inputs.nixpkgs-25.legacyPackages.${system}.azahar
 
     qdirstat
     pkgs.kdePackages.kdenlive
     showmethekey
+    waywall
+
+    # Gnome keyring prompter for secrets
+    pkgs.gcr
+
+    jre
+
+    # (mathematica.override {
+    #   webdoc = true;
+    # })
 
     alsa-scarlett-gui
     (inputs.nixpkgs-24.legacyPackages.${system}.bottles)
@@ -105,4 +124,12 @@ in {
     ];
   };
 
+  services.gnome-keyring.enable = true;
+
+  wayland.windowManager.sway = {
+    enable = true;
+    config.startup = [
+    {command = "kitty";}
+    ];
+  };
 }

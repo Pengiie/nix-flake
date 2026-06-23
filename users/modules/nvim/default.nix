@@ -54,7 +54,7 @@ in {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
   ];
-  nixpkgs.overlays = [ inputs.fenix.overlays.default ];
+  #nixpkgs.overlays = [ inputs.fenix.overlays.default ];
 
   programs.nixvim = {
     enable = true;
@@ -222,6 +222,37 @@ in {
           '';
         };
       }
+
+      # Format
+      {
+        mode = "n";
+        key = "<leader>fm";
+        action = {
+          __raw = ''
+            function()
+              vim.lsp.buf.format()
+            end
+          '';
+        };
+      }
+
+      # AI
+      {
+        mode = "n";
+        key = "<leader>ci";
+        action = {
+          __raw = ''
+            function()
+              require("copilot.suggestion").toggle_auto_trigger()
+            end
+          '';
+        };
+      }
+      # {
+      #   mode = "n";
+      #   key = "<leader>ac";
+      #   action = ":AvanteChat<CR>";
+      # }
     ];
 
     clipboard.providers.wl-copy.enable = true;
@@ -301,12 +332,18 @@ in {
       # Syntax highlighting
       treesitter = {
         enable = true;
-        settings = {
-          auto_install = true;
-          highlight.enable = true;
-        };
+        settings.highlight.enable = true;
       };
       colorizer.enable = true;
+
+      # Formatting
+      none-ls = {
+        enable = true;
+        sources.formatting = {
+          prettier.enable = true;
+          prettier.disableTsServerFormatter = true;
+        };
+      };
 
       # LSP stuff
       lsp = {
@@ -315,16 +352,29 @@ in {
         servers = {
           bashls.enable = true;
           html.enable = true;
-          cssls.enable = true;
+          cssls = {
+            enable = true;
+            filetypes = [
+              "scss"
+            ];
+          };
+          angularls.enable = true;
           nixd.enable = true;
           lua_ls.enable = true;
           ts_ls.enable = true;
+          eslint.enable = true;
           clangd.enable = true;
           cmake.enable = true;
           zls.enable = true;
+          tailwindcss =  {
+            enable = true;
+            filetypes = ["htmlangular"];
+          };
           rust_analyzer = {
             installCargo = false;
             installRustc = false;
+          # Old verison of rust analyzer cause https://github.com/rust-lang/rust-analyzer/issues/21220
+            package = inputs.nixpkgs-24.legacyPackages.${system}.rust-analyzer;
           };
           slangd = {
             enable = true;
@@ -335,6 +385,11 @@ in {
                 deducedTypes = true;
                 parameterNames = true;
               };
+              additionalSearchPaths = [
+                "/home/nathan/dev/paratym/rogue/assets/shaders"
+                "/home/nathan/dev/paratym/rogue/assets/shaders/lib"
+                "/home/nathan/dev/paratym/rogue/assets/shaders/lib/voxel"
+              ];
             };
           };
         };
@@ -417,7 +472,10 @@ in {
       crates.enable = true;
       rustaceanvim = {
         enable = true;
-        #package = inputs.fenix.packages.${system}.stable.rust-analyzer;
+        # Old verison of rust analyzer cause https://github.com/rust-lang/rust-analyzer/issues/21220
+        # settings.server.cmd = [
+        #   "${inputs.nixpkgs-25.legacyPackages.${system}.rust-analyzer}/bin/rust-analyzer"
+        # ];
       };
 
       hex.enable = true;
@@ -428,10 +486,55 @@ in {
         settings = {
           current_function = false;
           show_filename = false;
-          status_symbol = "";
         };
       };
       presence-nvim.enable = true;
+
+      copilot-lua = {
+        enable = true;
+        settings.suggestion.keymap.accept = "<M-i>";
+      };
+
+      # The vibe ain't for me
+      # avante = {
+      #   enable = true;
+      #   settings = {
+      #     provider = "ollama";
+      #     providers = {
+      #       ollama = {
+      #         model = "qwen2.5-coder:7b";
+      #         disable_tools = true;
+      #       };
+      #     };
+      #   };
+      # };
+
+      # cmp-ai = {
+      #   enable = true;
+      #   settings = {
+      #     max_lines = 100;
+      #     ignored_file_types = {
+      #       markdown = true;
+      #     };
+      #     provider = "Ollama";
+      #     provider_options = {
+      #       model = "qwen2.5-coder:1.5b-base";
+      #       prompt.__raw = ''
+      #         function(lines_before, lines_after)
+      #           return "<|fim_prefix|>" .. lines_before .. "<|fim_suffix|>" .. lines_after .. "<|fim_middle|>"
+      #         end
+      #       '';
+      #       auto_unload = true;
+      #     };
+      #     notify = true;
+      #     notify_callback.__raw = ''
+      #       function(msg)
+      #         vim.notify(msg)
+      #       end
+      #     '';
+      #     run_on_every_keystroke = true;
+      #   };
+      # };
     };
 
     # Create undo dir if it doesn't exist (repoducible necessity)

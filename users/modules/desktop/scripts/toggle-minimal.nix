@@ -12,10 +12,11 @@
     elif [ "$1" == "true" ]; then
       echo "Enabling minimal desktop."
       eww close $ACTIVE_WORKSPACE_MONITOR-status-bar
-      hyprctl keyword workspace $ACTIVE_WORKSPACE_ID,rounding:false,gapsin:0,gapsout:0
+      hyprctl keyword workspace $ACTIVE_WORKSPACE_ID,rounding:false,gapsin:0,gapsout:0,border:false
     elif [ "$1" == "false" ]; then
       echo "Disabling minimal desktop."
       eww open $ACTIVE_WORKSPACE_MONITOR-status-bar
-      hyprctl keyword workspace $ACTIVE_WORKSPACE_ID,
+      hyprctl keyword workspace $ACTIVE_WORKSPACE_ID,rounding:true,gapsin:${builtins.toString config.theme.spacing.margins.desktop},gapsout:${builtins.toString config.theme.spacing.margins.desktop},border:true
+
     fi
   ''

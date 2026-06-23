@@ -22,7 +22,7 @@
         resolution.width = 2560;
         resolution.height = 1440;
         refreshRate = 144;
-        position.x = 1920;
+        position.x = 0;
         position.y = 0;
         scale = 1.0;
       }

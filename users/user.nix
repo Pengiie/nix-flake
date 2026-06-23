@@ -73,7 +73,7 @@ in {
         nemo
         firefox
 
-        libsForQt5.polkit-kde-agent
+        #libsForQt5.polkit-kde-agent
       ];
     };
 

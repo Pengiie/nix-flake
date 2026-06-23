@@ -10,6 +10,7 @@
 
     nodejs_20
     nodejs
+    mysql-workbench
 
     cmake
     clang

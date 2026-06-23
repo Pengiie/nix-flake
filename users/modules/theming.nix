@@ -16,7 +16,7 @@
       # Fonts
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       liberation_ttf
       pkgs.nerd-fonts._0xproto
       pkgs.nerd-fonts.droid-sans-mono
